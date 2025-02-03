@@ -1,13 +1,20 @@
 package com.java.consultorioJuridico.repositories;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.java.consultorioJuridico.models.Caso;
 
 public interface CasoRepository extends JpaRepository<Caso, Long>{
 
-	ArrayList<Caso> findByEstudianteAsignado(Long idUsuario);
+	@Query("SELECT c FROM Caso c WHERE c.estudianteAsignado.id = :estudianteId")
+	List<Caso> findByEstudianteAsignado(@Param("estudianteId") Long estudianteId);
+	
+	
+	
+	
 
 }

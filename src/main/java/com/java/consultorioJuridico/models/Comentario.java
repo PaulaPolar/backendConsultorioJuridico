@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -15,14 +17,15 @@ import jakarta.persistence.Table;
 public class Comentario {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_comentario")
     private Long idComentario;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_caso", nullable = false)
     private Caso caso;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
@@ -31,8 +34,17 @@ public class Comentario {
 
     @Column(name = "fecha_creacion", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime fechaCreacion;
+    
+    public Comentario() {
+    	
+    }
 
-    public Long getIdComentario() {
+    public Comentario(Caso caso, String contenido) {
+        this.caso = caso;
+        this.contenido = contenido;
+        this.fechaCreacion = LocalDateTime.now();
+    }
+	public Long getIdComentario() {
         return idComentario;
     }
 
